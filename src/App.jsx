@@ -1,34 +1,39 @@
-import { Castle } from 'lucide-react';
-import { LuAnchor, LuCable } from "react-icons/lu";
-import { BsHospital, Bs1Square } from 'react-icons/bs'
-import Icon from './components/atoms/Icon';
-
+import { useState } from 'react';
 
 function App() {
+  console.log('App rendered');
+
+  const [num, fnc] = useState(11);
+
+  const [color, setColor] = useState('bg-green-600');
+
+  console.log('num inside App', num);
+
+  const handleAdd = () => {
+    console.log('num inside handleAdd - before', num);
+    fnc(num + 1);
+    console.log('num inside handleAdd - after', num);
+  }
+
+
+  const turnRed = () => {
+    setColor('bg-red-600')
+  }
+
   return (
-    <div className=''>
-      {/* <Castle size={80} color='#87445f' strokeWidth={0.2} />
-      <LuAnchor size={180} />
-      <LuCable size={80} color='#eeaa90' />
-      <BsHospital size={40} color='green' />
-      <Bs1Square size={40} color='green' /> */}
-
-      <Icon name='Home' color='tomato' />
-      <Icon name='Phone' color='pink' size='80' />
-      <Icon name='SquareChevronLeft' />
-      <Icon name='RefreshCcw' color='blue' thin />
-      <Icon name='RefreshCw' color='#785ee3' thin />
-      <Icon name='ChartSpline' thin />
-      <Icon name='xyz' color='green' />
+    <div className="flex items-center gap-4 m-3">
+      <button onClick={handleAdd} id="btn_add" className="px-3 py-2 rounded-md shadow text-white w-12 h-12 bg-green-700">+</button>
+      <span>{num}</span>
+      <button className="px-3 py-2 rounded-md shadow text-white w-12 h-12 bg-red-700">-</button>
 
 
+      {/* Color Change */}
 
-      {/* Make this works */}
-      <Alert variant='success' title='Saved Successfully' msg='Your data has been saved.' />
-      <Alert variant='danger' title='Your data will be deleted' msg='Please saved your data if you want to keep.' />
-      <Alert msg='Default Alert with a message' />
+      <div className={color}>
+        Welcome
+      </div>
 
-
+      <button onClick={turnRed}>Change to Red</button>
     </div>
   )
 }
