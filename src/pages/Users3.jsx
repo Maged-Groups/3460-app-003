@@ -1,0 +1,22 @@
+const response = await fetch('https://dummyjson.com/users');
+console.log('response ', response);
+
+const data = await response.json();
+console.log('data ', data);
+
+const { users, total } = data;
+console.log('users ', users);
+
+export default function Users3() {
+
+
+
+    return (
+        <div>
+            <h1>All user</h1>
+            <div className="flex flex-wrap gap-3 justify-between items-center m-4">
+                USER
+            </div>
+        </div>
+    )
+}
