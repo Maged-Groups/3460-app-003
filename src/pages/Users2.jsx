@@ -1,3 +1,5 @@
+import PageTitle from "../components/atoms/PageTitle";
+
 export default function Users2() {
     const usersList = [
         {
@@ -35,7 +37,7 @@ export default function Users2() {
 
     return (
         <div>
-            <h1>All user</h1>
+            <PageTitle title="All user" />
             <div className="flex flex-wrap gap-3 justify-between items-center m-4">
                 {usersList.map(({ name, title, id }) => (
                     <div key={id} className="border p-4 rounded-md">

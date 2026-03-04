@@ -1,3 +1,5 @@
+import PageTitle from "../components/atoms/PageTitle";
+
 const Users1 = () => {
 
     const usersList = [
@@ -16,7 +18,7 @@ const Users1 = () => {
     
     return (
         <div>
-            <h1>All user</h1>
+            <PageTitle title="All user" />
             <div className="flex flex-wrap gap-3 justify-between items-center m-4">
                 {usersList.map(user => <div className="border p-4 rounded-md">{user.toUpperCase()} </div>)}
             </div>

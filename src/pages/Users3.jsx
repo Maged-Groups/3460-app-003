@@ -1,3 +1,5 @@
+import PageTitle from "../components/atoms/PageTitle";
+
 const response = await fetch('https://dummyjson.com/users');
 console.log('response ', response);
 
@@ -13,7 +15,8 @@ export default function Users3() {
 
     return (
         <div>
-            <h1>All user</h1>
+             <PageTitle title="All user" />
+        
             <div className="flex flex-wrap gap-3 justify-between items-center m-4">
                 USER
             </div>
