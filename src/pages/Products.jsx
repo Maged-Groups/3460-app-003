@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import PageTitle from "../components/atoms/PageTitle";
 
 const api = "https://dummyjson.com/products";
@@ -5,10 +6,10 @@ const api = "https://dummyjson.com/products";
 const response = await fetch(api);
 
 const data = await response.json();
-console.log('data', data)
+// console.log('data', data)
 
 const { products: items } = data;
-console.log('items', items);
+// console.log('items', items);
 
 export default function Products() {
 
@@ -37,7 +38,7 @@ export default function Products() {
                             </div>
 
                             <div className="text-sky-600 p-3 bg-sky-100 text-center">
-                                <a href="">Show Details</a>
+                                <Link to={`/products/${item.id}`}>Show Details</Link>
                             </div>
                         </div>
                     ))

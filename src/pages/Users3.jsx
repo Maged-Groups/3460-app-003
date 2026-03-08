@@ -1,13 +1,13 @@
 import PageTitle from "../components/atoms/PageTitle";
 
 const response = await fetch('https://dummyjson.com/users');
-console.log('response ', response);
+// console.log('response ', response);
 
 const data = await response.json();
-console.log('data ', data);
+// console.log('data ', data);
 
 const { users, total } = data;
-console.log('users ', users);
+// console.log('users ', users);
 
 export default function Users3() {
 

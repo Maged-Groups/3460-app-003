@@ -13,7 +13,7 @@ const Users1 = () => {
         'Seif'
     ];
 
-    console.log('usersList', usersList)
+    // console.log('usersList', usersList)
 
     
     return (
