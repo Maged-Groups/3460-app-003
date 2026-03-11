@@ -199,7 +199,7 @@ export default function Product() {
                         <span className="text-gray-700">Quantity:</span>
                         <div className="flex items-center border rounded-lg">
                             <button
-                                onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                                onClick={() => setQuantity(Math.max(0, quantity - 1))}
                                 className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-l-lg"
                             >
                                 -
@@ -219,9 +219,6 @@ export default function Product() {
 
                     {/* Action Buttons */}
                     <div className="flex space-x-4">
-                        <button className="flex-1 bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-200">
-                            Add to Cart
-                        </button>
                         <button className="flex-1 bg-gray-800 text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-900 transition duration-200">
                             Buy Now
                         </button>
