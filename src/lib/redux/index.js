@@ -1,5 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 
+// Slices
+import cartSlice from './cartSlice';
+import userSlice from './userSlice'
+import modalsSlice from './modalsSlice'
+
 // const store = configureStore({
 //     reducer: {}
 // });
@@ -8,5 +13,9 @@ import { configureStore } from '@reduxjs/toolkit';
 
 
 export default configureStore({
-    reducer: {}
+    reducer: {
+        cartSlice,
+        userSlice,
+        modalsSlice
+    }
 });

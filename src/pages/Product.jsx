@@ -1,19 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router'
+import { useDispatch, useSelector } from 'react-redux';
+import Alert from '../components/atoms/Alert';
+import { toggleLoginModal } from '../lib/redux/modalsSlice';
 
 export default function Product() {
 
-    const arr = Array(10);
-    console.log('arr', arr)
-    const arr2 = [...arr];
-    console.log('arr2', arr2)
+    const { loggedin } = useSelector(store => store.userSlice)
 
-    arr.forEach(itm=> console.log('itm', itm))
-    arr2.forEach(itm=> console.log('itm arr2', itm))
-
-    console.log('Product Component Rendered')
-
-    // let product = {}; // JS
     const [product, setProduct] = useState(null); // RJS
     const [selectedImage, setSelectedImage] = useState(0);
     const [quantity, setQuantity] = useState(0);
@@ -21,27 +15,22 @@ export default function Product() {
     const [error, setError] = useState(false);
     const [photos, setPhotos] = useState([]);
 
-    console.log('product', product);
+    const dispatch = useDispatch()
+
 
     const { id } = useParams();
     const api = `https://dummyjson.com/products/${id}`;
 
-    console.log('id', id);
-    console.log('api', api);
+    const handleShowLogin = () => dispatch(toggleLoginModal());
 
-    console.log('Before Use Effect')
     useEffect(() => {
-        console.log('Use Effect fired');
         getProduct();
     }, []);
-    console.log('After Use Effect')
 
     const getProduct = async () => {
         try {
 
             const res = await fetch(api);
-
-            console.log('res', res);
 
             if (res.status === 404)
                 return setError(`Product with ID ${id} was not found`);
@@ -51,13 +40,12 @@ export default function Product() {
             setProduct(data); // RJS
 
             const photosArr = [data.thumbnail, ...data.images]; // Spread operator (...)
-            console.log('photosArr', photosArr)
+
             setPhotos(photosArr)
 
-            console.log('product', product);
 
         } catch (e) {
-            console.log('catch fired')
+
             setError('Product not found!!!');
         } finally {
             setIsLoading(false);
@@ -194,35 +182,46 @@ export default function Product() {
                         </div>
                     </div>
 
-                    {/* Quantity Selector */}
-                    <div className="flex items-center space-x-4">
-                        <span className="text-gray-700">Quantity:</span>
-                        <div className="flex items-center border rounded-lg">
-                            <button
-                                onClick={() => setQuantity(Math.max(0, quantity - 1))}
-                                className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-l-lg"
-                            >
-                                -
-                            </button>
-                            <span className="px-6 py-2 border-x">{quantity}</span>
-                            <button
-                                onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
-                                className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-r-lg"
-                            >
-                                +
-                            </button>
-                        </div>
-                        <span className="text-sm text-gray-500">
-                            {product.stock} available
-                        </span>
-                    </div>
+                    {
+                        loggedin ?
 
-                    {/* Action Buttons */}
-                    <div className="flex space-x-4">
-                        <button className="flex-1 bg-gray-800 text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-900 transition duration-200">
-                            Buy Now
-                        </button>
-                    </div>
+                            <>
+                                {/* Quantity Selector */}
+                                <div className="flex items-center space-x-4">
+                                    <span className="text-gray-700">Quantity:</span>
+                                    <div className="flex items-center border rounded-lg">
+                                        <button
+                                            onClick={() => setQuantity(Math.max(0, quantity - 1))}
+                                            className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-l-lg"
+                                        >
+                                            -
+                                        </button>
+                                        <span className="px-6 py-2 border-x">{quantity}</span>
+                                        <button
+                                            onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
+                                            className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-r-lg"
+                                        >
+                                            +
+                                        </button>
+                                    </div>
+                                    <span className="text-sm text-gray-500">
+                                        {product.stock} available
+                                    </span>
+                                </div>
+
+                                {/* Action Buttons */}
+                                <div className="flex space-x-4">
+                                    <button className="flex-1 bg-gray-800 text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-900 transition duration-200">
+                                        Buy Now
+                                    </button>
+                                </div>
+                            </>
+                            :
+                            <Alert type='warning' icon='ShieldAlert' >
+                                Please <button onClick={handleShowLogin}>Login</button> to add items to your cart
+                            </Alert>
+                    }
+
 
                     {/* Additional Info */}
                     <div className="mt-8 space-y-4">

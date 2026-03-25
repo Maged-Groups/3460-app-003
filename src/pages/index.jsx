@@ -5,7 +5,7 @@ import Users3 from './Users3'
 import Home from './Home'
 import P404 from './P404'
 
-export default function Pages() {
+export default function Pages( ) {
     return (
         <Routes>
             <Route path='products' element={<Products />} />
