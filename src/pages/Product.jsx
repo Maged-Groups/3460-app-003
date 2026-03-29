@@ -3,14 +3,16 @@ import { Link, useParams } from 'react-router'
 import { useDispatch, useSelector } from 'react-redux';
 import Alert from '../components/atoms/Alert';
 import { toggleLoginModal } from '../lib/redux/modalsSlice';
+import { addToCart } from '../lib/redux/cartSlice';
 
 export default function Product() {
 
     const { loggedin } = useSelector(store => store.userSlice)
-
+    const { cartItems } = useSelector(store => store.cartSlice)
+    
     const [product, setProduct] = useState(null); // RJS
     const [selectedImage, setSelectedImage] = useState(0);
-    const [quantity, setQuantity] = useState(0);
+    // const [quantity, setQuantity] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(false);
     const [photos, setPhotos] = useState([]);
@@ -23,9 +25,22 @@ export default function Product() {
 
     const handleShowLogin = () => dispatch(toggleLoginModal());
 
+    const isProductInCart = cartItems.some(item => item.id === product?.id);
+
+    const quantityInCart = isProductInCart ? cartItems.find(item => item.id === product.id).quantity : 0;
+
     useEffect(() => {
         getProduct();
     }, []);
+
+    const handleAddToCart = () => {
+        // setQuantity(Math.min(product.stock, quantity + 1))
+        dispatch(addToCart(product));
+    }
+
+    const handleRemoveFromCart = () => {
+        // setQuantity(Math.max(0, quantity - 1))
+    }
 
     const getProduct = async () => {
         try {
@@ -191,14 +206,14 @@ export default function Product() {
                                     <span className="text-gray-700">Quantity:</span>
                                     <div className="flex items-center border rounded-lg">
                                         <button
-                                            onClick={() => setQuantity(Math.max(0, quantity - 1))}
+                                            onClick={handleRemoveFromCart}
                                             className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-l-lg"
                                         >
                                             -
                                         </button>
-                                        <span className="px-6 py-2 border-x">{quantity}</span>
+                                        <span className="px-6 py-2 border-x">{quantityInCart}</span>
                                         <button
-                                            onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
+                                            onClick={handleAddToCart}
                                             className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-r-lg"
                                         >
                                             +

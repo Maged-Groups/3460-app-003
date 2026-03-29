@@ -19,7 +19,7 @@ export default function Products() {
             <div className="flex flex-wrap items-center justify-center gap-2">
                 {
                     items?.map(item => (
-                        <div key={item.id} className="relative rounded-md shadow-md border bg-gray-100 text-gray-800 w-full max-w-75">
+                        <div key={item.id} className="relative z-1 rounded-md shadow-md border bg-gray-100 text-gray-800 w-full max-w-75">
                             <div className="border-b-8 border-green-600 p-4">
                                 <h3>{item.title}</h3>
                             </div>

@@ -2,13 +2,17 @@ import { useRef } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { toggleLoginModal } from "../../lib/redux/modalsSlice";
 import { login } from '../../lib/redux/userSlice';
+import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 const Login = () => {
+    const [error, setError] = useState('');
 
     const dispatch = useDispatch();
 
     const refUsername = useRef();
     const refPassword = useRef();
+    const refRemember = useRef();
 
     console.log('refUsername', refUsername)
     const { showLogin } = useSelector(store => store.modalsSlice)
@@ -18,6 +22,9 @@ const Login = () => {
     const handleLogin = async () => {
         const username = refUsername.current.value;
         const password = refPassword.current.value;
+
+        const remeber = refRemember.current.checked;
+
 
         const credentials = {
             username, password
@@ -36,14 +43,27 @@ const Login = () => {
         const res = await fetch(loginAPI, init);
         console.log(res);
 
-        const loggedinUser = await res.json();
+        const resData = await res.json();
 
         if (res.status === 200) {
             // success
-            dispatch(login(loggedinUser));
+            const jsonUser = JSON.stringify(resData);
+            console.log('remeber', remeber);
+
+            remeber ? localStorage.user = jsonUser : sessionStorage.user = jsonUser;
+
+            dispatch(login(resData));
             dispatch(toggleLoginModal());
+            toast.success('Logged in successfully!', {
+                position: 'top-center',
+                theme: 'dark'
+            });
         } else {
             // fail
+            setError(resData.message);
+            toast.error(resData.message, {
+                position: 'top-center'
+            });
         }
 
         console.log(data);
@@ -96,7 +116,7 @@ const Login = () => {
                     {/* Remember me */}
                     <div className="flex items-center justify-between text-sm">
                         <label className="flex items-center cursor-pointer">
-                            <input type="checkbox" className="rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
+                            <input type="checkbox" ref={refRemember} className="rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
                             <span className="ml-2 text-gray-600">Remember me</span>
                         </label>
                         <a href="#" className="font-semibold text-blue-600 hover:underline">Forgot?</a>
@@ -106,6 +126,8 @@ const Login = () => {
                     <button onClick={handleLogin} className="w-full rounded-lg bg-blue-600 py-2.5 font-semibold text-white transition-colors hover:bg-blue-700">
                         Login
                     </button>
+
+                    <p className='text-red-600'>{error}</p>
                 </div>
 
                 {/* Register */}

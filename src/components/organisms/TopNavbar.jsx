@@ -9,7 +9,9 @@ export default function TopNavbar() {
 
     const [showAccountMenu, setShowAccountMenu] = useState(false);
 
-    const { itemsCount } = useSelector(store => store.cartSlice)
+    const { itemsCount , cartItems } = useSelector(store => store.cartSlice)
+
+    console.log('cartItems', cartItems);
 
     const { loggedin, user } = useSelector(store => store.userSlice)
 
@@ -26,10 +28,16 @@ export default function TopNavbar() {
          dispatch(toggleLoginModal());
     }
 
-    const handleLogout = () => dispatch(logout());
+    const handleLogout = () => {
+        dispatch(logout());
+
+        // Clear storages
+        localStorage.clear();
+        sessionStorage.clear();
+    }
 
     return (
-        <nav className="hidden sm:flex gap-2 justify-between bg-zinc-700 text-zinc-100 px-2 py-3 sticky top-0">
+        <nav className="hidden sm:flex gap-2 justify-between bg-zinc-700 text-zinc-100 px-2 py-3 sticky z-10 top-0">
             {/* Logo */}
             <div>
                 LOGO
@@ -65,7 +73,7 @@ export default function TopNavbar() {
                         <div>
                             <div onClick={handleShowAccountMenu} className='cursor-pointer w-8 h-8 text-sm rounded-full bg-gray-200 text-gray-900 flex items-center justify-center'>{userInitals}</div>
 
-                            <ul className={`overflow-hidden ${showAccountMenu ? 'flex' : 'hidden'} flex-col gap-3 absolute bg-gray-400 min-w-40 right-2 shadow-md rounded-sm top-12`}>
+                            <ul className={`overflow-hidden ${showAccountMenu ? 'flex' : 'hidden'} flex-col gap-3 absolute bg-gray-400 min-w-40 right-2 shadow-md rounded-sm top-12 z-5000000`}>
                                 <li className='px-2 py-1 cursor-pointer hover:bg-gray-500'>
                                     <Link>Profile</Link>
                                 </li>

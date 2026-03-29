@@ -18,6 +18,8 @@ const userSlice = createSlice({
         },
         logout: (state) => {
             state.loggedin = false;
+            state.user = null;
+            state.token = null;
         }
     }
 });
